@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param (
     [Parameter(Mandatory=$true)]
-    [securestring] $BaseName,
+    [string] $BaseName,
 
     [Parameter(Mandatory=$true)]
     [securestring] $AdminPassword,
