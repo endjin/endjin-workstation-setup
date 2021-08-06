@@ -1,6 +1,9 @@
 [CmdletBinding()]
 param (
     [Parameter(Mandatory=$true)]
+    [securestring] $BaseName,
+
+    [Parameter(Mandatory=$true)]
     [securestring] $AdminPassword,
 
     [switch] $DryRun
@@ -42,7 +45,6 @@ function _generatePassword {
     $password | ConvertTo-SecureString -AsPlainText
 }
 function _getPasswordFromKeyVaultOrGenerate {
-    $vaultName = 
     $password = $null
     $keyVault = Get-AzKeyVault -VaultName $deploymentConfig.KeyVaultName -ErrorAction SilentlyContinue
     if ($keyVault) {
@@ -102,7 +104,7 @@ Read-Host "Are the above connection details correct? - <RETURN> to continue, <CT
 # $keyVaultAccessPolicies = _generateKeyVaultAccessPolicy
 
 $templateParameters = @{
-    baseName = "jdwrkstn"
+    baseName = $BaseName
     adminUsername = "endjin"
     adminPassword = $AdminPassword
     vmSize = "Standard_B4ms"
