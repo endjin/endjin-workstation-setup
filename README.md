@@ -36,6 +36,10 @@ After installing Bicep, you need to add the path to `bicep.exe` to you PATH envi
 1. Choose the `path` environment variable and edit it.
 1. Add the path above.
 
+The final step is to clone this repository locally so that you can run the script:
+
+`git clone https://github.com/endjin/endjin-workstation-setup.git`
+
 ## Usage
 
 Run the `deploy.ps1` script, which take the following parameters:
