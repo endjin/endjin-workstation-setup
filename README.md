@@ -17,12 +17,24 @@ The repo contains a set of [Bicep](https://github.com/Azure/bicep/blob/main/READ
 1. Access to an Azure subscription (it is suggested that you use your Visual Studio or 'MPN' subscription for this)
 1. PowerShell Core installed:
     * Windows: https://github.com/PowerShell/PowerShell/releases/download/v7.1.3/PowerShell-7.1.3-win-x64.msi
+1. [Chocolatey](https://chocolatey.org/install) - use this to install Git, Visual Studio Code and the Azure CLI:
+    * `choco install -y git visualstudiocode azure-cli`
 1. [PowerShell Az](https://www.powershellgallery.com/packages/Az/5.9.0) module installed:
     * `Install-Module -Name Az -RequiredVersion 5.9.0 -Scope CurrentUser -AllowClobber`
 1. Logged-in to the above module:
     * `Connect-AzAccount`
 1. Connected to the correct subscription:
     * `Set-AzContext -SubscriptionId <mpn-subscription-id>`
+1. Use the Azure CLI to install Bicep:
+    * `az bicep install`
+
+After installing Bicep, you need to add the path to `bicep.exe` to you PATH environment variable.  The easiest way to do this is to:
+1. Open Windows Explorer - shortcut is `WINDOWS KEY + E`
+1. In the path bar at the top of Windows explorer paste in the following: `%HOMEPATH%/.azure/bin`
+1. Copy the path that this resolves to.  This is usually something like `C:\users\<username>\.azure\bin`
+1. Open the System Properties - short cut is `WINDOWS KEY, type "path"` select the "Edit System Environment Variables" option.
+1. Choose the `path` environment variable and edit it.
+1. Add the path above.
 
 ## Usage
 
