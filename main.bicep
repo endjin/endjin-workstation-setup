@@ -21,10 +21,22 @@ param location string = 'uksouth'
 param vmSize string = 'Standard_B4ms'
 
 param clientIp string
-param keyVaultAccessPolicies array = []
+param keyVaultName string = '${baseName}-kv'
 param resourceTags object = {}
 
+param vmAdminPrincipalType string
+param vmAdminObjectId string
+param now string = utcNow()
+param salt string = newGuid()
 
+
+// This VM is intended to be only be accessed via AAD accounts, so the local
+// administrator account password should not ordinarily be required
+// If one hasn't been specified, generate a password that should reasonably difficult to predict
+var vmPassword = empty(adminPassword) ? '${uniqueString(now, salt, resourceGroup.id)}!' : adminPassword
+var vmPasswordSecretName = 'vmAdminPassword'
+
+// Use a simple prefix-based naming convention for all the resources
 var rgName = 'rg-${baseName}-workstation'
 var nicName_var = '${baseName}-nic'
 var addressPrefix = '10.0.0.0/16'
@@ -52,14 +64,14 @@ resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-04-01' = {
   tags: resourceTags
 }
 
+// Creates a key vault and stores the VM admin password
 module key_vault 'modules/key_vault.bicep' = {
   name: 'keyVaultDeploy'
   scope: resourceGroup
   params: {
-    keyVaultName: '${baseName}-kv'
-
+    keyVaultName: keyVaultName
     location: location
-    accessPolicies: keyVaultAccessPolicies
+    accessPolicies: []
     enabledForDeployment: true
     diagnosticsEnabled: false
     createDiagnosticsStorageAccount: false
@@ -68,27 +80,23 @@ module key_vault 'modules/key_vault.bicep' = {
     tagValues: resourceTags
   }
 }
+module keyvault_secret 'modules/key_vault_secret.bicep' = {
+  name: 'keyVaultSecretDeploy'
+  scope: resourceGroup
+  params: {
+    keyVaultName: key_vault.outputs.name
+    secretName: vmPasswordSecretName
+    contentValue: string(vmPassword)
+  }
+}
 
-// TODO:
-//    Store VM admin password in key vault, if specified
-//    Update VM to read password from this secret
-// module admin_secret 'modules/key_vault_secret.bicep' = if (!empty(adminPassword)){
-//   name: 'keyVaultSecretDeploy'
-//   scope: resourceGroup
-//   params: {
-//     keyVaultName: key_vault.outputs.name
-//     secretName: 'vmAdminPassword'
-//     contentValue: string(adminPassword)
-//   }
-// }
-
+// Setup the VM and it associated resources
 module publicIp 'modules/public_ip.bicep' = {
   scope: resourceGroup
   name: 'publicIpDeploy'
   params: {
     name: publicIPAddressName_var
     allocationMethod: 'Static'
-    // dnsLabel: ''
   }
 }
 
@@ -143,7 +151,7 @@ module vm 'modules/virtual_machine.bicep' = {
   params: {
     name: vmName_var
     adminUsername: adminUsername
-    adminPassword: adminPassword
+    adminPassword: vmPassword
     imageReference: {
       publisher: 'MicrosoftWindowsDesktop'
       offer: 'office-365'
@@ -157,7 +165,8 @@ module vm 'modules/virtual_machine.bicep' = {
     scriptFolder: scriptFolder
     scriptFileName: scriptFileName
     scriptParameters: scriptParameters
+    enableAadLogin: true
+    assigneePrincipalType: vmAdminPrincipalType
+    assigneeObjectId: vmAdminObjectId
   }
 }
-
-// output vm_fqdn string = publicIp.outputs.fqdn

@@ -1,7 +1,9 @@
 param name string
 param adminUsername string
+@secure()
 param adminPassword string
 param vmSize string
+param imageReference object
 param nicResourceId string
 param runCustomScripts bool
 param scriptUris array
@@ -9,17 +11,31 @@ param scriptFolder string
 param scriptFileName string
 param scriptParameters string
 
+param assigneePrincipalType string
+param assigneeObjectId string
+@allowed([
+  'Virtual Machine Administrator Login'
+  'Virtual Machine User Login'
+])
+param assigneeRoleName string = 'Virtual Machine Administrator Login'
+
 param location string = resourceGroup().location
-param imageReference object = {
-  publisher: 'MicrosoftWindowsServer'
-  offer: 'WindowsServer'
-  sku: '2016-Datacenter'
-  version: 'latest'
+param enableAadLogin bool = true
+
+
+var roleDefinitionIds = {
+  'Virtual Machine Administrator Login': subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '1c0163c0-47e6-4577-8991-ea5c82e286e4')
+  'Virtual Machine User Login': subscriptionResourceId('Microsoft.Authorization/roleDefinitions', 'fb879df8-f326-4884-b1cf-06f3ad86be52')
 }
+var roleAssignmentId = guid(roleDefinitionIds[assigneeRoleName], assigneeObjectId, vm.id)
+
 
 resource vm 'Microsoft.Compute/virtualMachines@2020-12-01' = {
   name: name
   location: location
+  identity: {
+    type: 'SystemAssigned'
+  }
   properties: {
     hardwareProfile: {
       vmSize: vmSize
@@ -108,5 +124,29 @@ resource auto_shutdown 'Microsoft.DevTestLab/schedules@2018-09-15' = {
     }
   }
 }
+
+resource aad_login 'Microsoft.Compute/virtualMachines/extensions@2020-12-01' = if (enableAadLogin) {
+  parent: vm
+  name: 'AADLoginForWindows'
+  location: location
+  properties: {
+    publisher: 'Microsoft.Azure.ActiveDirectory'
+    type: 'AADLoginForWindows'
+    typeHandlerVersion: '0.4'
+    autoUpgradeMinorVersion: true
+  }
+}
+
+// If using AzureAD authentication grant the required role assignment
+resource role_assignment 'Microsoft.Authorization/roleAssignments@2020-08-01-preview' = if (enableAadLogin) {
+  name: roleAssignmentId
+  scope: vm
+  properties: {
+    roleDefinitionId: roleDefinitionIds[assigneeRoleName]
+    principalId: assigneeObjectId
+    principalType: assigneePrincipalType
+  }
+}
+
 
 output resourceId string = vm.id

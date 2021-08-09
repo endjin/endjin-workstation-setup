@@ -3,9 +3,6 @@ param (
     [Parameter(Mandatory=$true)]
     [string] $BaseName,
 
-    [Parameter(Mandatory=$true)]
-    [securestring] $AdminPassword,
-
     [switch] $DryRun
 )
 $ErrorActionPreference = "Stop"
@@ -14,7 +11,10 @@ Set-StrictMode -Version 4.0
 
 $here = Split-Path -Parent $PSCommandPath
 
-#region Helper functions
+Get-AzContext | Format-List | Out-String | Write-Information
+Read-Host "Are the above connection details correct? - <RETURN> to continue, <CTRL-C> to cancel"
+
+# Helper to generate a strong random password
 function _generatePassword {
     param(
         [Parameter(Mandatory = $false)]
@@ -44,73 +44,24 @@ function _generatePassword {
     
     $password | ConvertTo-SecureString -AsPlainText
 }
-function _getPasswordFromKeyVaultOrGenerate {
-    $password = $null
-    $keyVault = Get-AzKeyVault -VaultName $deploymentConfig.KeyVaultName -ErrorAction SilentlyContinue
-    if ($keyVault) {
-        $existingSecret = Get-AzKeyVaultSecret -VaultName $keyVault.VaultName `
-                                                -Name $deploymentConfig.AdministratorPasswordKeyVaultSecretName `
-                                                -ErrorAction SilentlyContinue
-    }
-    if (!$keyVault -or !$existingSecret) {
-        Write-Host "Generating new admin password"
-        $password = _generatePassword -Length 12
-    }
-    else {
-        $password = $existingSecret.SecretValue
-    }
 
-    return $password
-}
-function _generateKeyVaultAccessPolicy {
-    # Prepare key-vault access policy parameter
-    $accessPoliciesForARM = @()
-    Write-Host "`nPreparing KeyVault access policy"
-    foreach ($entry in $deploymentConfig.KeyVaultAccessPolicy) {
-        if ( !$entry.ContainsKey("principalObjectId") -or !$entry.ContainsKey("permissions") ) {
-            Write-Warning "Invalid KeyVaultAccessPolicy entry - must contain values for 'principalObjectId' and 'permisions' - skipping entry`n$($entry|Format-Table|out-string)"
-            continue
-        }
-        
-        # Check to see if objectId exists
-        $response = Invoke-CorvusAzCliRestCommand -Uri "https://graph.microsoft.com/v1.0/directoryObjects/getByIds" `
-                                                  -Method POST `
-                                                  -Body @{ids = @($entry.principalObjectId)}
-        if ($response.value) {
-            Write-Host ("Ensuring KeyVault access for '{0}' (ObjectId={1})" -f $entry.description, $entry.principalObjectId)
-            $accessPoliciesForARM += @{
-                tenantId = (Get-AzContext).Tenant.Id
-                objectId = $entry.principalObjectId
-                permissions = @{
-                    secrets = $entry.permissions["secrets"] ?? @()
-                    keys = $entry.permissions["keys"] ?? @()
-                    certificates = $entry.permissions["certificates"] ?? @()
-                }
-            }
-        }
-        else {
-            Write-Warning "The AAD object with objectId '$($entry.principalObjectId)' could not be found - skipping"
-            continue
-        }
-    }
-    return $accessPoliciesForARM
-}
-#endregion
+# Lookup the AAD ObjectId for the identity running this script
+# This will be used to grant access to the VM
+$azureAccount = (Get-AzContext).Account
+$identityObjectId = ($azureAccount -eq "ServicePrincipal") ? `
+                        (Get-AzAdServicePrincipal -ApplicationId $azureAccount).Id : 
+                        (Get-AzAdUser -UserPrincipalName $azureAccount).Id
 
-Get-AzContext | Format-List | Out-String | Write-Information
-Read-Host "Are the above connection details correct? - <RETURN> to continue, <CTRL-C> to cancel"
-
-
-# $keyVaultAccessPolicies = _generateKeyVaultAccessPolicy
-
+# Setup the parameters needed by the Bicep/ARM template
 $templateParameters = @{
     baseName = $BaseName
-    adminUsername = "endjin"
-    adminPassword = $AdminPassword
+    adminUsername = "endjin-admin"
+    adminPassword = _generatePassword
     vmSize = "Standard_B4ms"
     location = "uksouth"
     clientIp = (Invoke-RestMethod -UserAgent curl -Uri https://ifconfig.io).Trim()
-    # keyVaultAccessPolicies = $keyVaultAccessPolicies
+    vmAdminPrincipalType = $azureAccount.Type
+    vmAdminObjectId = $identityObjectId
 }
 
 Write-Information "Deploying ARM template... [IsDryRun: $DryRun]"
@@ -122,3 +73,4 @@ $res = New-AzDeployment -Name $deployName `
                             @templateParameters `
                             -Verbose
 
+Write-Information ("`n{0} (objectId={1}) has been granted Admin login rights to the VM`n" -f $azureAccount.Id, $identityObjectId)
