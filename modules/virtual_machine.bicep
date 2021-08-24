@@ -5,9 +5,7 @@ param vmSize string
 param nicResourceId string
 param runCustomScripts bool
 param scriptUris array
-param scriptFolder string
 param scriptFileName string
-param scriptParameters string
 
 param location string = resourceGroup().location
 param imageReference object = {
@@ -52,11 +50,11 @@ resource customScriptExtension 'Microsoft.Compute/virtualMachines/extensions@202
   properties: {
     publisher: 'Microsoft.Compute'
     type: 'CustomScriptExtension'
-    typeHandlerVersion: '1.8'
+    typeHandlerVersion: '1.10'
     autoUpgradeMinorVersion: true
     settings: {
       fileUris: scriptUris
-      commandToExecute: 'powershell -ExecutionPolicy Unrestricted -File ${scriptFolder}/${scriptFileName} ${scriptParameters}'
+      commandToExecute: 'powershell -ExecutionPolicy Unrestricted -File ${scriptFileName}'
     }
   }
 }

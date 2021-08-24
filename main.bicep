@@ -35,12 +35,8 @@ var virtualNetworkName_var = '${baseName}-vnet'
 var publicIPAddressName_var = '${baseName}-pip'
 var networkSecurityGroupName_var = '${baseName}-nsg'
 
-// TODO - run custom script
-var scriptFolder = 'scripts'
-var scriptFileName = 'Copy-FileFromAzure.ps1'
-// var fileToBeCopied = 'FileToBeCopied.txt'
-var scriptParameters = '' //'-artifactsLocation ${replace(artifactsLocation, artifactsLocationSasToken, '')} -artifactsLocationSasToken "${artifactsLocationSasToken}" -folderName ${scriptFolder} -fileToInstall ${fileToBeCopied}'
-var scriptUri = empty(artifactsLocation) ? [] : array(uri(artifactsLocation, '${scriptFolder}/${scriptFileName}${artifactsLocationSasToken}'))
+var scriptFileName = 'bootstrap.ps1'
+var scriptUris = array('https://raw.githubusercontent.com/endjin/endjin-workstation-setup/feature/choco/bootstrap/bootstrap.ps1')
 
 
 targetScope = 'subscription'
@@ -152,11 +148,9 @@ module vm 'modules/virtual_machine.bicep' = {
     }
     nicResourceId: nic.outputs.resourceId
     vmSize: vmSize
-    runCustomScripts: length(scriptUri) == 0 ? false : true
-    scriptUris: scriptUri
-    scriptFolder: scriptFolder
+    runCustomScripts: true
+    scriptUris: scriptUris
     scriptFileName: scriptFileName
-    scriptParameters: scriptParameters
   }
 }
 
