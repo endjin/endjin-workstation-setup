@@ -1,6 +1,6 @@
 # General settings
 
-# Comment-out/delete these lines if you like a more spartan Windows Explorer interface
+# Comment-out/delete these lines if you like a more spartan Windows Explorer experience
 Set-WindowsExplorerOptions -EnableShowHiddenFilesFoldersDrives `
                            -EnableShowProtectedOSFiles `
                            -EnableShowFileExtension
@@ -9,4 +9,4 @@ Set-WindowsExplorerOptions -EnableShowHiddenFilesFoldersDrives `
 $cachePath = (Resolve-Path ([IO.Path]::Combine($env:USERPROFILE, 'AppData', 'Local', 'Temp', 'chocolatey'))).Path
 
 # Install/upgrade packages using the configuration file
-choco upgrade --cacheLocation=$cachePath -y ./setup-chocolatey-packages.config
+choco install --cacheLocation=$cachePath -y ./setup-chocolatey-packages.config

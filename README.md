@@ -52,7 +52,22 @@ Next you will be asked to confirm that the displayed Azure subscription details 
 Once this has finished, connect to the [Azure Portal](https://portal.azure.com) and you should be able to find a new resource group in your subscription with the name:
 * `rg-<basename>-workstation`
 
-Locate the virtual machine resource and from it's "Overview" pane, click the "Connect" tab to get details for how to connect to your new virtual machine.
+### Validate Virtual Machine Access
+
+Locate the virtual machine resource in the above resource group and from it's "Overview" pane, click the "Connect" tab to get details for using RDP to access your new virtual machine.
+
+Logon to the virtual machine via Remote Desktop (RDP) and check whether you have 'PowerShell 7 (x64)' available in the Start Menu.
+
+If you don't then something went wrong with the bootstrap process, but you should find you do have the following file available:
+* `C:\Packages\Plugins\Microsoft.Compute.CustomScriptExtension\1.10.12\Downloads\0\bootstrap.ps1`
+
+If so, then you can re-run the bootstrap process from an elevated 'Command Prompt' as follows:
+```
+cd C:\Packages\Plugins\Microsoft.Compute.CustomScriptExtension\1.10.12\Downloads\0
+powershell -ExecutionPolicy Unrestricted -File bootstrap.ps1
+```
+
+This should install the few pre-requisites needed before proceeding to the next section below [Using an Existing Windows Machine](#using-an-existing-windows-machine).
 
 
 ## Using an Existing Windows Machine
@@ -75,9 +90,12 @@ If you do not have those available, then you can run the following from an eleva
 ## Managing your installed software
 
 1. If you haven't already done so, fork this repository into your own GitHub account
-1. Open a new PowerShell Core terminal
+1. Create a directory where you will store all the git repositories you work with (e.g. `C:\git`)
+1. Open a new elevated 'Windows PowerShell' terminal from the Start Menu
+1. `cd` into the folder you created above
 1. Clone this repository to your machine: `git clone https://github.com/<your-github-username>/endjin-workstation-setup.git`
+1. `cd` into `endjin-workstation-setup` directory created by the above command
 1. Review the `setup-boxstarter-script.txt` file, removing/commenting-out any lines as desired - this file contains comments to describe what each line does
 1. Review the `setup-chocolatey-packages.config` file, adding any further packages you require - they can be found by searching [here](https://community.chocolatey.org/packages)
-1. `cd` into `endjin-workstation-setup` directory created by the above command
 1. Run `./setup.ps1` to begin the software install process
+1. Commit any changes you made to the above files and push them up to GitHub so they are safely stored
