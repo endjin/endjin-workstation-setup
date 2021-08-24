@@ -66,7 +66,7 @@ If you already have a suitable Windows machine, then check whether you have the 
 If you do not have those available, then you can run the following from an elevated Windows PowerShell terminal to install them before proceeding to the next section:
 
 ```
-. { iwr -useb https://raw.githubusercontent.com/endjin/dev-workstation-choco-demo/master/bootstrap.ps1 -Headers @{"Cache-Control"="no-cache"} } | iex;
+. { iwr -useb https://raw.githubusercontent.com/endjin/endjin-workstation-setup/main/bootstrap/bootstrap.ps1 -Headers @{"Cache-Control"="no-cache"} } | iex;
 ```
 
 >NOTE: Windows PowerShell is the older, non-cross platform version of PowerShell which comes pre-installed with Windows.  Given that this flavour of PowerShell is no longer being updated (it is locked at v5.1), we have adopted PowerShell Core as our standard which is currently at v7.x.
