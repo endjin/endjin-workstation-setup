@@ -1,0 +1,12 @@
+# General settings
+
+# Comment-out/delete these lines if you like a more spartan Windows Explorer interface
+Set-WindowsExplorerOptions -EnableShowHiddenFilesFoldersDrives `
+                           -EnableShowProtectedOSFiles `
+                           -EnableShowFileExtension
+
+# Workaround issue with TEMP path getting polluted due to Boxstarter issue: https://github.com/chocolatey/boxstarter/issues/241
+$cachePath = (Resolve-Path ([IO.Path]::Combine($env:USERPROFILE, 'AppData', 'Local', 'Temp', 'chocolatey'))).Path
+
+# Install/upgrade packages using the configuration file
+choco upgrade --cacheLocation=$cachePath -y ./setup-chocolatey-packages.config
