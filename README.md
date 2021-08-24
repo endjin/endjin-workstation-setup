@@ -109,3 +109,35 @@ You will then be prompted to enter a password which will be masked as you type -
 Next you will be asked to confirm that the displayed Azure subscription details are correct (i.e. you are connected to the correct subscription) and then the automation will run through.
 
 Once this has finished, connect to the [Azure Portal](https://portal.azure.com) and you should be able to find a new resource group in your subscription with the name: `rg-<basename>-workstation`.
+
+## Steps to follow after VM has been created...
+
+Make sure that your VM is sized to support "embedded virtualisation".  For example VM size: "Standard D4ds_V4".
+
+You then need to install WSL2 on the VM.  Follow the steps below - see [here](https://docs.microsoft.com/en-us/windows/wsl/install-win10) for additional background.
+
+**Step 1** - enable the "Windows Subsystem for Linux" optional feature before installing any Linux distributions on Windows.
+
+```PowerShell
+dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
+```
+
+**Step 2** - before installing WSL 2, you must enable the Virtual Machine Platform optional feature.
+
+```PowerShell
+dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
+```
+
+**Step 3** - download the latest [package WSL2 Linux kernel update package for x64 machines](https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi).
+
+**Step 4** - set WSL 2 as the default version when installing a new Linux distribution:
+
+```PowerShell
+wsl --set-default-version 2
+```
+
+Notes:
+
+1. Could some of the steps above be executed using Chocolatey?
+1. Are some of the steps redundant given Docker may execute them on install?
+1. Is the "Standard D4ds_V4" size of VM the most cost effective option that supports "embedded virtualisation"?
