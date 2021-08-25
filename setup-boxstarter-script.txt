@@ -5,6 +5,16 @@ Set-WindowsExplorerOptions -EnableShowHiddenFilesFoldersDrives `
                            -EnableShowProtectedOSFiles `
                            -EnableShowFileExtension
 
+# WSL2 install steps
+dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
+dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
+
+Invoke-WebRequest -Uri "https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi" -OutFile ./wsl_update_x64.msi
+& msiexec.exe /i $((Resolve-Path ./wsl_update_x64.msi).Path) /passive /l*v ./wsl2-install.log | Out-Null
+Write-Host "MSIExec code: $LASTEXITCODE"
+wsl --set-default-version 2
+
+
 # Workaround issue with TEMP path getting polluted due to Boxstarter issue: https://github.com/chocolatey/boxstarter/issues/241
 $cachePath = (Resolve-Path ([IO.Path]::Combine($env:USERPROFILE, 'AppData', 'Local', 'Temp', 'chocolatey'))).Path
 
