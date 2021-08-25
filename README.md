@@ -19,7 +19,10 @@ To support this scenario, the repo contains a set of [Bicep](https://github.com/
 * Installs the Microsoft Anti-Malware software
 * Installs the software pre-requisites needed to work with this repository
 
-[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fendjin%2Fendjin-workstation-setup%2Ffeature%2Fchocov%2Fazuredeploy.json)
+The simplest way to provision this virtual machine is to use the button below:
+[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fendjin%2Fendjin-workstation-setup%2Ffeature%2Fchoco%2Fazuredeploy.json)
+
+Alternatively, you can setup and run the automation included in this repository.
 
 ### Pre-Requisites: General
 In order to run the automation scripts that will provision your Azure virtual machine, you will require access to an Azure subscription.
@@ -104,7 +107,6 @@ Change directory to the repo above:
 Run the `deploy.ps1` script, which take the following parameters:
 
 * BaseName - a naming prefix that will be used when creating the various Azure resources
-* AdminPassword - the password used to login the VM
 
 For example:
 ```
