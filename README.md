@@ -20,6 +20,7 @@ To support this scenario, the repo contains a set of [Bicep](https://github.com/
 * Installs the software pre-requisites needed to work with this repository
 
 The simplest way to provision this virtual machine is to use the button below:
+
 [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fendjin%2Fendjin-workstation-setup%2Ffeature%2Fchoco%2Fazuredeploy.json)
 
 Alternatively, you can setup and run the automation included in this repository.
