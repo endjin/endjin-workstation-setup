@@ -8,5 +8,3 @@ choco upgrade --cacheLocation=$cachePath -y git
 choco upgrade --cacheLocation=$cachePath -y vscode
 
 Install-WindowsUpdate -Criteria "IsInstalled=0 and Type='Software'" -AcceptEula
-
-wsl --install
