@@ -1,3 +1,4 @@
+@description('A naming prefix used to generate unique Azure resource names')
 param baseName string
 
 @description('Username for the Virtual Machine.')
