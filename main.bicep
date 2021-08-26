@@ -47,7 +47,7 @@ var virtualNetworkName_var = '${baseName}-vnet'
 var publicIPAddressName_var = '${baseName}-pip'
 var networkSecurityGroupName_var = '${baseName}-nsg'
 
-var scriptFileName = 'bootstrap.ps1'
+var scriptFileName = './bootstrap.ps1'
 var scriptUris = array('https://raw.githubusercontent.com/endjin/endjin-workstation-setup/feature/choco/bootstrap/bootstrap.ps1')
 
 

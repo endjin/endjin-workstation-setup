@@ -70,7 +70,7 @@ resource customScriptExtension 'Microsoft.Compute/virtualMachines/extensions@202
     autoUpgradeMinorVersion: true
     settings: {
       fileUris: scriptUris
-      commandToExecute: 'powershell -ExecutionPolicy Unrestricted -File ${scriptFileName}'
+      commandToExecute: 'powershell -ExecutionPolicy Unrestricted -Command "Write-Output `"debug`"; $PWD|Write-Output; & ${scriptFileName}; Write-Output `"done`" >vm-bootstrap.log'
     }
   }
 }

@@ -6,3 +6,5 @@ $cachePath = (Resolve-Path ([IO.Path]::Combine($env:USERPROFILE, 'AppData', 'Loc
 choco upgrade --cacheLocation=$cachePath -y powershell-core
 choco upgrade --cacheLocation=$cachePath -y git
 choco upgrade --cacheLocation=$cachePath -y vscode
+
+Install-WindowsUpdate -Criteria "IsInstalled=0 and Type='Software'" -AcceptEula
