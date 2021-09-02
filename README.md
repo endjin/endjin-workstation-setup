@@ -14,23 +14,33 @@ The intention is that you fork this repo into your own GitHub account and custom
 
 If you already have a suitable Windows machine, then check whether you have the following pre-requisites already available:
 
-* Git
 
-If you do not have those available, then you can run the following from an elevated 'Windows PowerShell' terminal to install them before proceeding to the next section:
+**PowerShell Core**
 
-```
-. { iwr -useb https://raw.githubusercontent.com/endjin/endjin-workstation-setup/main/bootstrap/bootstrap.ps1 -Headers @{"Cache-Control"="no-cache"} } | iex;
-```
+- You can do this by downloading and running the [MSI installer for PowerShell Core from GitHub](https://github.com/PowerShell/PowerShell/releases/download/v7.1.3/PowerShell-7.1.3-win-x64.msi).
+
+- Use all of the default settings when the installer runs.
+
+**Chocolatey**
+
+- Chocolatey is a tool for installing software onto Windows.  It takes care of a lot of the pain in installing software.
+
+-  To install, follow the instructions at [Installing Chocolatey ](https://chocolatey.org/install).
+
+
+Use Chocolatey to install **Git**:
+
+    `choco install -y git`
 
 ### Installing Windows Subsystem for Linux (aka WSL)
 
-For the moment the most reliable way to install Windows Subsystem for Linux is to follow the manual process documented [here](docs/vm_setup.md#installing Windows_subsystem_for_linux)
+For the moment the most reliable way to install Windows Subsystem for Linux is to follow the manual process documented [here](docs/setup_vm.md#installing_windows_subsystem_for_linux)
 
 ## Managing your installed software
 
 1. If you haven't already done so, fork this repository into your own GitHub account via the 'Fork' option in the top right of this page you are reading
 1. Create a directory where you will store all the git repositories you work with (e.g. `C:\code`)
-1. Open a new elevated 'Windows PowerShell' terminal from the Start Menu
+1. Open a new elevated 'Windows PowerShell' terminal from the Start Menu (Run as Administrator)
 1. `cd` into the folder you created above
 1. Clone this repository to your machine: `git clone https://github.com/<your-github-username>/endjin-workstation-setup.git`
 1. `cd` into `endjin-workstation-setup` directory created by the above command
