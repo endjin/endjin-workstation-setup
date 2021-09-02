@@ -4,7 +4,7 @@ This repository helps you setup your development workstation and provides an ong
 
 It targets two core scenarios:
 
-1. Using an Azure virtual machine - go [here](/docs/setup_vm.md) to get started
+1. Using an Azure virtual machine - go [here](docs/setup_vm.md) to get started
 1. Using an existing Windows system you already have access to (e.g. a new laptop) - go [here](#using-an-existing-windows-machine) to get started
 
 The intention is that you fork this repo into your own GitHub account and customise the configuration as required - this repo will then provide you with a mechanism to rapidly get yourself up-and-running in the event of using a new machine or after fresh install of Windows on your existing machine.
@@ -22,6 +22,9 @@ If you do not have those available, then you can run the following from an eleva
 . { iwr -useb https://raw.githubusercontent.com/endjin/endjin-workstation-setup/main/bootstrap/bootstrap.ps1 -Headers @{"Cache-Control"="no-cache"} } | iex;
 ```
 
+### Installing Windows Subsystem for Linux (aka WSL)
+
+For the moment the most reliable way to install Windows Subsystem for Linux is to follow the manual process documented [here](docs/vm_setup.md#installing Windows_subsystem_for_linux)
 
 ## Managing your installed software
 

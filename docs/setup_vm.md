@@ -8,20 +8,15 @@ To support this scenario, the repo contains a set of [Bicep](https://github.com/
 * Installs the Microsoft Anti-Malware software
 * Installs the software pre-requisites needed to work with this repository
 
-The simplest way to provision this virtual machine is to use the button below:
 
-[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fendjin%2Fendjin-workstation-setup%2Ffeature%2Fchoco%2Fazuredeploy.json)
-
-Alternatively, you can setup and run the automation included in this repository.
-
-### Pre-Requisites: General
+## Pre-Requisites: General
 In order to run the automation scripts that will provision your Azure virtual machine, you will require access to an Azure subscription.
 
 To check if you have an Azure subscription visit the [Azure Portal](https://portal.azure.com/).
 
 >Note: If you have just joined, you will need to visit this [site](https://my.visualstudio.com/) to activate your subscription.
 
-### Pre-Requisites: On Windows
+## Pre-Requisites: On Windows
 
 Install **PowerShell Core**
 
@@ -38,7 +33,7 @@ Use Chocolatey to install **Git** and **Bicep**:
 
     `choco install -y git visualstudiocode azure-cli`
 
-### Pre-Requisites: On MacOS
+## Pre-Requisites: On MacOS
 
 Install **Brew**
 
@@ -60,7 +55,7 @@ Use Brew to install **Bicep**:
 
     `brew install bicep`
 
-### Pre-requisites: Set Up PowerShell (Windows and Mac)
+## Pre-requisites: Set Up PowerShell (Windows and Mac)
 
 Launch a PowerShell core session:
 
@@ -84,7 +79,7 @@ For example:
 
 Note - throughout this process, environment variables (like PATH) will change. So you will need to close / reopen your shell to get access to new tools that are installed such as Chocolately.
 
-### Creating the Virtual Virtual
+## Creating the Virtual Virtual
 
 If you have not already done so, clone this repository locally so that you can run the script:
 
@@ -109,7 +104,32 @@ Next you will be asked to confirm that the displayed Azure subscription details 
 
 Once this has finished, connect to the [Azure Portal](https://portal.azure.com) and you should be able to find a new resource group in your subscription with the name: `rg-<basename>-workstation`.
 
-## Steps to follow after VM has been created...
+
+## Validate Virtual Machine Access
+
+Locate the virtual machine resource in the above resource group and from it's "Overview" pane, click the "Connect" tab to get details for using RDP to access your new virtual machine.
+
+Logon to the virtual machine via Remote Desktop (RDP) and check whether 'git' has been installed by typing the following from a 'Command Prompt':
+```
+git
+```
+The above should return a screen full of usage information.
+
+If you get a message saying the command 'git' could not be found, then something went wrong with the bootstrap process, but you should find you do have the following file available:
+* `C:\Packages\Plugins\Microsoft.Compute.CustomScriptExtension\1.10.12\Downloads\0\bootstrap.ps1`
+
+If so, then you can re-run the bootstrap process from an elevated 'Command Prompt' as follows:
+```
+cd C:\Packages\Plugins\Microsoft.Compute.CustomScriptExtension\1.10.12\Downloads\0
+powershell -ExecutionPolicy Unrestricted -File bootstrap.ps1
+```
+
+This should install the few pre-requisites needed before proceeding to the next section.
+
+
+## Installing Windows Subsystem for Linux
+
+This component is used as part of setting-up Docker.
 
 Make sure that your VM is sized to support "embedded virtualisation".  For example VM size: "Standard D4ds_V4".
 
@@ -140,26 +160,5 @@ Notes:
 1. Are some of the steps redundant given Docker may execute them on install?
 1. Is the "Standard D4ds_V4" size of VM the most cost effective option that supports "embedded virtualisation"?
 
-
-### Validate Virtual Machine Access
-
-Locate the virtual machine resource in the above resource group and from it's "Overview" pane, click the "Connect" tab to get details for using RDP to access your new virtual machine.
-
-Logon to the virtual machine via Remote Desktop (RDP) and check whether 'git' has been installed by typing the following from a 'Command Prompt':
-```
-git
-```
-The above should return a screen full of usage information.
-
-If you get a message saying the command 'git' could not be found, then something went wrong with the bootstrap process, but you should find you do have the following file available:
-* `C:\Packages\Plugins\Microsoft.Compute.CustomScriptExtension\1.10.12\Downloads\0\bootstrap.ps1`
-
-If so, then you can re-run the bootstrap process from an elevated 'Command Prompt' as follows:
-```
-cd C:\Packages\Plugins\Microsoft.Compute.CustomScriptExtension\1.10.12\Downloads\0
-powershell -ExecutionPolicy Unrestricted -File bootstrap.ps1
-```
-
-This should install the few pre-requisites needed before proceeding to the next section.
 
 You can now return the main [README](/README.md#managing_your_installed_software) to configure the additional software you require on the virtual machine.
