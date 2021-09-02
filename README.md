@@ -24,7 +24,7 @@ If you do not have those available, then you can run the following from an eleva
 
 ### Installing Windows Subsystem for Linux (aka WSL)
 
-For the moment the most reliable way to install Windows Subsystem for Linux is to follow the manual process documented [here](docs/vm_setup.md#installing Windows_subsystem_for_linux)
+For the moment the most reliable way to install Windows Subsystem for Linux is to follow the manual process documented [here](docs/setup_vm.md#installing_windows_subsystem_for_linux)
 
 ## Managing your installed software
 
