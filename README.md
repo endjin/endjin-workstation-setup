@@ -30,7 +30,7 @@ For the moment the most reliable way to install Windows Subsystem for Linux is t
 
 1. If you haven't already done so, fork this repository into your own GitHub account via the 'Fork' option in the top right of this page you are reading
 1. Create a directory where you will store all the git repositories you work with (e.g. `C:\code`)
-1. Open a new elevated 'Windows PowerShell' terminal from the Start Menu
+1. Open a new elevated 'Windows PowerShell' terminal from the Start Menu (Run as Administrator)
 1. `cd` into the folder you created above
 1. Clone this repository to your machine: `git clone https://github.com/<your-github-username>/endjin-workstation-setup.git`
 1. `cd` into `endjin-workstation-setup` directory created by the above command
