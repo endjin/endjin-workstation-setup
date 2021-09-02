@@ -5,14 +5,15 @@ Set-WindowsExplorerOptions -EnableShowHiddenFilesFoldersDrives `
                            -EnableShowProtectedOSFiles `
                            -EnableShowFileExtension
 
+# NOTE: Disabled whilst investigating WSL install issues
 # WSL2 install steps
-$checkWsl = & wsl --list
-if ($checkWsl.Contains("Usage: wsl.exe [Argument]")) {
-    Write-Host "Installing WSL..."
-    wsl --install
-    Read-Host "Press <RETURN> to reboot"
-    shutdown /r /t 0
-}
+#$checkWsl = & wsl --list
+#if ($checkWsl.Contains("Usage: wsl.exe [Argument]")) {
+#    Write-Host "Installing WSL..."
+#    wsl --install
+#    Read-Host "Press <RETURN> to reboot"
+#    shutdown /r /t 0
+#}
 
 # Workaround issue with TEMP path getting polluted due to Boxstarter issue: https://github.com/chocolatey/boxstarter/issues/241
 $cachePath = (Resolve-Path ([IO.Path]::Combine($env:USERPROFILE, 'AppData', 'Local', 'Temp', 'chocolatey'))).Path
