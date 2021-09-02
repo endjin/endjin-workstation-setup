@@ -14,13 +14,23 @@ The intention is that you fork this repo into your own GitHub account and custom
 
 If you already have a suitable Windows machine, then check whether you have the following pre-requisites already available:
 
-* Git
 
-If you do not have those available, then you can run the following from an elevated 'Windows PowerShell' terminal (Run as Administrator) to install them before proceeding to the next section:
+**PowerShell Core**
 
-```
-. { iwr -useb https://raw.githubusercontent.com/endjin/endjin-workstation-setup/main/bootstrap/bootstrap.ps1 -Headers @{"Cache-Control"="no-cache"} } | iex;
-```
+- You can do this by downloading and running the [MSI installer for PowerShell Core from GitHub](https://github.com/PowerShell/PowerShell/releases/download/v7.1.3/PowerShell-7.1.3-win-x64.msi).
+
+- Use all of the default settings when the installer runs.
+
+**Chocolatey**
+
+- Chocolatey is a tool for installing software onto Windows.  It takes care of a lot of the pain in installing software.
+
+-  To install, follow the instructions at [Installing Chocolatey ](https://chocolatey.org/install).
+
+
+Use Chocolatey to install **Git**:
+
+    `choco install -y git`
 
 ### Installing Windows Subsystem for Linux (aka WSL)
 
