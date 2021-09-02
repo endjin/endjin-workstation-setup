@@ -16,7 +16,7 @@ If you already have a suitable Windows machine, then check whether you have the 
 
 * Git
 
-If you do not have those available, then you can run the following from an elevated 'Windows PowerShell' terminal to install them before proceeding to the next section:
+If you do not have those available, then you can run the following from an elevated 'Windows PowerShell' terminal (Run as Administrator) to install them before proceeding to the next section:
 
 ```
 . { iwr -useb https://raw.githubusercontent.com/endjin/endjin-workstation-setup/main/bootstrap/bootstrap.ps1 -Headers @{"Cache-Control"="no-cache"} } | iex;
