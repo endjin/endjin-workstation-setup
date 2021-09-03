@@ -144,10 +144,10 @@ dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux 
 **Step 2** - before installing WSL 2, you must enable the Virtual Machine Platform optional feature.
 
 ```PowerShell
-dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
+dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all
 ```
 
-**Step 3** - reboot your machine to allow the above system changes to take effect.
+**Step 3** - you should now be asked to reboot your machine, say "yes" to allow the above changes to take effect.
 
 **Step 4** - log back into your machine and download the latest [package WSL2 Linux kernel update package for x64 machines](https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi).
 
