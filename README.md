@@ -39,12 +39,12 @@ For the moment the most reliable way to install Windows Subsystem for Linux is t
 ## Managing your installed software
 
 1. If you haven't already done so, fork this repository into your own GitHub account via the 'Fork' option in the top right of this page you are reading
-1. Create a directory where you will store all the git repositories you work with (e.g. `C:\code`)
+1. Create a directory where you will store all the git repositories you work with (e.g. `md C:\code`)
 1. Open a new elevated 'Windows PowerShell' terminal from the Start Menu (Run as Administrator)
-1. `cd` into the folder you created above
+1. `cd` into the folder you created above (e.g. `cd C:\code`)
 1. Clone this repository to your machine: `git clone https://github.com/<your-github-username>/endjin-workstation-setup.git`
-1. `cd` into `endjin-workstation-setup` directory created by the above command
-1. Review the `setup-chocolatey-packages.config` file, adding any further packages you require - they can be found by searching [here](https://community.chocolatey.org/packages)
+1. Move into the directory created by the above command (e.g. `cd endjin-workstation-setup`)
+1. The list of packages that will be installed can be found in the `setup-chocolatey-packages.config` file, adding any further packages you require - use the [Chocolatey web site](https://community.chocolatey.org/packages) to search the available packages
 1. Allow local powershell scripts to executed by running `Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Force`
 1. Run `./setup.ps1` to begin the software install process
-1. Commit any changes you made to the above files and push them up to GitHub so they are safely stored
+1. If you made any changes to the `setup-chocolatey-packages.config` file, you can commit them and push them up to GitHub so they are safely stored
