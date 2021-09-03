@@ -1,0 +1,22 @@
+# General settings
+
+# Comment-out/delete these lines if you like a more spartan Windows Explorer experience
+Set-WindowsExplorerOptions -EnableShowHiddenFilesFoldersDrives `
+                           -EnableShowProtectedOSFiles `
+                           -EnableShowFileExtension
+
+# NOTE: Disabled whilst investigating WSL install issues
+# WSL2 install steps
+#$checkWsl = & wsl --list
+#if ($checkWsl.Contains("Usage: wsl.exe [Argument]")) {
+#    Write-Host "Installing WSL..."
+#    wsl --install
+#    Read-Host "Press <RETURN> to reboot"
+#    shutdown /r /t 0
+#}
+
+# Workaround issue with TEMP path getting polluted due to Boxstarter issue: https://github.com/chocolatey/boxstarter/issues/241
+$cachePath = (Resolve-Path ([IO.Path]::Combine($env:USERPROFILE, 'AppData', 'Local', 'Temp', 'chocolatey'))).Path
+
+# Install/upgrade packages using the configuration file
+choco install --cacheLocation=$cachePath -y ./setup-chocolatey-packages.config
