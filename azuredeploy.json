@@ -82,7 +82,7 @@
     "publicIPAddressName_var": "[format('{0}-pip', parameters('baseName'))]",
     "networkSecurityGroupName_var": "[format('{0}-nsg', parameters('baseName'))]",
     "scriptFileName": "bootstrap.ps1",
-    "scriptUris": "[array('https://raw.githubusercontent.com/endjin/endjin-workstation-setup/feature/choco/bootstrap/bootstrap.ps1')]"
+    "scriptUris": "[array('https://raw.githubusercontent.com/endjin/endjin-workstation-setup/main/bootstrap/bootstrap.ps1')]"
   },
   "resources": [
     {

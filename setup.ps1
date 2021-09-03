@@ -3,7 +3,7 @@ $here = Split-Path -Parent $PSCommandPath
 Write-Host "`n*******************************************************************"
 Write-Host "*** Have you followed the steps for installing the"
 Write-Host "*** Windows Subsystem for Linux (aka WSL)?"
-Write-Host "*** Link: https://github.com/endjin/endjin-workstation-setup/blob/feature/choco/docs/setup_vm.md#installing-windows-subsystem-for-linux"
+Write-Host "*** Link: https://github.com/endjin/endjin-workstation-setup/blob/main/docs/setup_vm.md#installing-windows-subsystem-for-linux"
 
 # Workaround issue with TEMP path getting polluted due to Boxstarter issue: https://github.com/chocolatey/boxstarter/issues/241
 $cachePath = (Resolve-Path ([IO.Path]::Combine($env:USERPROFILE, 'AppData', 'Local', 'Temp', 'chocolatey'))).Path
