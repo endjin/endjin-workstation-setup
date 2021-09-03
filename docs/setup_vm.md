@@ -147,11 +147,13 @@ dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux 
 dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
 ```
 
-**Step 3** - download the latest [package WSL2 Linux kernel update package for x64 machines](https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi).
+**Step 3** - reboot your machine to allow the above system changes to take effect.
 
-**Step 4** - reboot the machine.
+**Step 4** - log back into your machine and download the latest [package WSL2 Linux kernel update package for x64 machines](https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi).
 
-**Step 5** - set WSL 2 as the default version when installing a new Linux distribution:
+**Step 5** - install the above by double-clicking on the file (or opening it from your browser 'Downloads' area)
+
+**Step 6** - set WSL 2 as the default version when installing a new Linux distribution:
 
 ```PowerShell
 wsl --set-default-version 2
