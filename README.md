@@ -44,8 +44,6 @@ For the moment the most reliable way to install Windows Subsystem for Linux is t
 1. `cd` into the folder you created above
 1. Clone this repository to your machine: `git clone https://github.com/<your-github-username>/endjin-workstation-setup.git`
 1. `cd` into `endjin-workstation-setup` directory created by the above command
-1. Review the `setup-boxstarter-script.txt` file, removing/commenting-out any lines as desired - this file contains comments to describe what each line does
 1. Review the `setup-chocolatey-packages.config` file, adding any further packages you require - they can be found by searching [here](https://community.chocolatey.org/packages)
 1. Run `./setup.ps1` to begin the software install process
-1. It will reboot your machine part way through the process, log back into and re-run the previous step so it can continue
 1. Commit any changes you made to the above files and push them up to GitHub so they are safely stored
