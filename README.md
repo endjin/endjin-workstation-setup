@@ -34,7 +34,7 @@ Use Chocolatey to install **Git**:
 
 ### Installing Windows Subsystem for Linux (aka WSL)
 
-For the moment the most reliable way to install Windows Subsystem for Linux is to follow the manual process documented [here](docs/setup_vm.md#installing_windows_subsystem_for_linux)
+For the moment the most reliable way to install Windows Subsystem for Linux is to follow the manual process documented [here](docs/setup_vm.md#installing-windows-subsystem-for-linux)
 
 ## Managing your installed software
 
